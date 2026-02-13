@@ -60,10 +60,55 @@ ConvertFrom-DnsRecord -ZoneName contoso.com
 ```
 
 ## Exporting
+
+- CSV
+
 ```powershell
-Get-DnsServerResourceRecord -ZoneName contoso.com |
+Get-DnsServerResourceRecord -ZoneName contoso.com -RRType Ns |
 ConvertFrom-DnsRecord -ZoneName contoso.com |
-Export-Csv dns-records.csv -NoTypeInformation
+ConvertTo-Csv -NoTypeInformation
+
+<# example output
+"DistinguishedName","HostName","Fqdn","RecordClass","RecordType","Timestamp","TimeToLive","Type","DnsServer","NameServer"
+"DC=@,DC=contoso.com,cn=MicrosoftDNS,DC=DomainDnsZones,DC=contoso,DC=com","@","contoso.com","IN","NS",,"01:00:00","2","DC01","dc01.contoso.com."
+"DC=_msdcs,DC=contoso.com,cn=MicrosoftDNS,DC=DomainDnsZones,DC=contoso,DC=com","_msdcs","_msdcs.contoso.com","IN","NS",,"01:00:00","2","DC01","dc01.contoso.com."
+#>
+```
+
+- JSON
+```powershell
+Get-DnsServerResourceRecord -ZoneName contoso.com -RRType A |
+ConvertFrom-DnsRecord -ZoneName contoso.com |
+ConvertTo-Json -Depth 3
+
+<# example output
+[
+    {
+        "DistinguishedName":  "DC=@,DC=contoso.com,cn=MicrosoftDNS,DC=DomainDnsZones,DC=contoso,DC=com",
+        "HostName":  "@",
+        "Fqdn":  "contoso.com",
+        "RecordClass":  "IN",
+        "RecordType":  "NS",
+        "Timestamp":  null,
+        "TimeToLive":  "01:00:00",
+        "Type":  2,
+        "DnsServer":  "DC01",
+        "NameServer":  "dc01.contoso.com."
+    },
+    {
+        "DistinguishedName":  "DC=_msdcs,DC=contoso.com,cn=MicrosoftDNS,DC=DomainDnsZones,DC=contoso,DC=com",
+        "HostName":  "_msdcs",
+        "Fqdn":  "_msdcs.contoso.com",
+        "RecordClass":  "IN",
+        "RecordType":  "NS",
+        "Timestamp":  null,
+        "TimeToLive":  "01:00:00",
+        "Type":  2,
+        "DnsServer":  "DC01",
+        "NameServer":  "dc01.contoso.com."
+    }
+]
+#>
 ```
 
 ## Supported Record Types
