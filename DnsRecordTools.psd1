@@ -40,7 +40,7 @@ PrivateData = @{
             'Configuration'
         )
         # A URL to the license for this module.
-        LicenseUri = 'https://github.com/Kannis-Wong/DnsRecordTools'
+        LicenseUri = 'https://github.com/Kannis-Wong/DnsRecordTools/blob/master/LICENSE'
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/Kannis-Wong/DnsRecordTools'
