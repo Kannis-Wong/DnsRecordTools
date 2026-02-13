@@ -57,7 +57,7 @@ Requires: Windows PowerShell 5.1 or PowerShell Core 7.4+, DnsServer module (RSAT
         [string]$ServerName = $env:COMPUTERNAME
     )
     process {
-        foreach ($rr in $InputObject) {                        
+        foreach ($rr in $InputObject) {
             $hasRecordType = $rr.PSObject.Properties.Match('RecordType').Count -gt 0
             $hasRecordData = $rr.PSObject.Properties.Match('RecordData').Count -gt 0
             if ((-not $hasRecordType) -or (-not $hasRecordData) -or (-not $rr.RecordData)) {
