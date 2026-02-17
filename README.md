@@ -77,7 +77,7 @@ ConvertTo-Csv -NoTypeInformation
 
 - JSON
 ```powershell
-Get-DnsServerResourceRecord -ZoneName contoso.com -RRType A |
+Get-DnsServerResourceRecord -ZoneName contoso.com -RRType Ns |
 ConvertFrom-DnsRecord -ZoneName contoso.com |
 ConvertTo-Json -Depth 3
 
