@@ -10,7 +10,7 @@
 
 # Script module or binary module file associated with this manifest.
 RootModule          = 'DnsRecordTools.psm1'
-ModuleVersion       = '1.0.0'
+ModuleVersion       = '1.1.0'
 GUID                = '4dacdfce-399c-4bbc-8489-d074a5dd874d'
 Author              = 'kannis.wong'
 Copyright           = '(c) Kannis.Wong. All rights reserved.'

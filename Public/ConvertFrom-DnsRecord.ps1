@@ -83,7 +83,7 @@ Requires: Windows PowerShell 5.1 or PowerShell Core 7.4+, DnsServer module (RSAT
                 $type       = $rr.Type
                 $ts         = if (-not ($rr.Timestamp)) { $null } else { $rr.Timestamp.ToString("o") }
                 $ttl        = if (-not ($rr.TimeToLive)) { $null } else { $rr.TimeToLive.ToString() }
-                $baseObj =  [pscustomobject]@{
+                $baseObj =  [ordered]@{
                     DistinguishedName   = $rDN
                     HostName            = $rName
                     Fqdn                = $fqdn
@@ -96,47 +96,47 @@ Requires: Windows PowerShell 5.1 or PowerShell Core 7.4+, DnsServer module (RSAT
                 }
                 switch ($rtype) {
                     'A' {
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'IPv4' -Value $rd.IPv4Address.IPAddressToString -Force
+                        $baseObj['IPv4']                = $rd.IPv4Address.IPAddressToString
                     }
                     'AAAA' {
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'IPv6' -Value $rd.IPv6Address.IPAddressToString -Force
+                        $baseObj['IPv6']                = $rd.IPv6Address.IPAddressToString
                     }
                     'CNAME' {
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'HostNameAlias' -Value $rd.HostNameAlias -Force
+                        $baseObj['HostNameAlias']       = $rd.HostNameAlias
                     }
                     'TXT' {
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'DescriptiveText' -Value $rd.DescriptiveText -Force
+                        $baseObj['DescriptiveText']     = $rd.DescriptiveText
                     }
                     'NS' {
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'NameServer' -Value $rd.NameServer -Force
+                        $baseObj['NameServer']          = $rd.NameServer
                     }
                     'SRV' {
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'DomainName' -Value $rd.DomainName -Force
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'Port' -Value $rd.Port -Force
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'Priority' -Value $rd.Priority -Force
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'Weight' -Value $rd.Weight -Force
+                        $baseObj['DomainName']          = $rd.DomainName
+                        $baseObj['Port']                = $rd.Port
+                        $baseObj['Priority']            = $rd.Priority
+                        $baseObj['Weight']              = $rd.Weight
                     }
                     'SOA' {
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'ExpireLimit' -Value $rd.ExpireLimit.ToString() -Force
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'MinimumTimeToLive' -Value $rd.MinimumTimeToLive.ToString() -Force
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'PrimaryServer' -Value $rd.PrimaryServer -Force
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'RefreshInterval' -Value $rd.RefreshInterval.ToString() -Force
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'ResponsiblePerson' -Value $rd.ResponsiblePerson -Force
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'RetryDelay' -Value $rd.RetryDelay.ToString() -Force
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'SerialNumber' -Value $rd.SerialNumber -Force
+                        $baseObj['ExpireLimit']         = $rd.ExpireLimit.ToString()
+                        $baseObj['MinimumTimeToLive']   = $rd.MinimumTimeToLive.ToString()
+                        $baseObj['PrimaryServer']       = $rd.PrimaryServer
+                        $baseObj['RefreshInterval']     = $rd.RefreshInterval.ToString()
+                        $baseObj['ResponsiblePerson']   = $rd.ResponsiblePerson
+                        $baseObj['RetryDelay']          = $rd.RetryDelay.ToString()
+                        $baseObj['SerialNumber']        = $rd.SerialNumber
                     }
                     'MX' {
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'MailExchange' -Value $rd.MailExchange -Force
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'Preference' -Value $rd.Preference -Force
+                        $baseObj['MailExchange']        = $rd.MailExchange
+                        $baseObj['Preference']          = $rd.Preference
                     }
                     'PTR' {
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'PtrDomainName' -Value $rd.PtrDomainName -Force
+                        $baseObj['PtrDomainName']       = $rd.PtrDomainName
                     }
                     default {
-                        $baseObj | Add-Member -MemberType NoteProperty -Name 'UnknownRecordType' -Value $rd.ToString() -Force
+                        $baseObj['UnknownRecordType']   = $rd.ToString()
                     }
                 }
-                $baseObj
+                [pscustomobject]$baseObj
             }
             catch {
                 throw
